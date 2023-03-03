@@ -53,6 +53,22 @@ public abstract class Shape {
         return this._rotation;
     }
 
+    public void moveRight() {
+        this._x++;
+    }
+
+    public void moveLeft() {
+        this._x--;
+    }
+
+    public Integer getX() {
+        return this._x;
+    }
+
+    public Integer getY() {
+        return this._y;
+    }
+
     public Boolean[][] getShapeAccordingToRotation() {
         return this._shape[this._rotation];
     }
