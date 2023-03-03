@@ -1,0 +1,135 @@
+@startuml Tetris
+
+package controllers {
+    class GameController {
+        + GameController()
+        + start(): void
+        + pause(): void
+        + moveLeft(): void
+        + moveRight(): void
+        + rotateRight(): void
+        + rotateLeft(): void
+    }
+
+}
+
+package models {
+    package Shapes {
+        abstract Shape {
+            - _rotation: Integer
+            - _shapes: Boolean[][]
+            - _color: Color
+            - _x: Integer
+            - _y: Integer
+
+            + Shape(color: Color)
+            + getShapeAccordingToRotation(): Boolean[][]
+            + left(): void
+            + right(): void
+        }
+
+        class IShape extends Shape {
+            + IShape()
+        }
+
+        class JShape extends Shape {
+            + JShape()
+        }
+
+        class LShape extends Shape {
+            + LShape()
+        }
+
+        class OShape extends Shape {
+            + OShape()
+        }
+
+        class SShape extends Shape {
+            + SShape()
+        }
+
+        class TShape extends Shape {
+            + TShape()
+        }
+
+        class ZShape extends Shape {
+            + ZShape()
+        }
+    }
+
+    class ShapesFactory {
+        - _instance: ShapesFactory
+
+        + {static} getInstance(): ShapesFactory
+        + createRandomShape(): Shape
+    }
+
+    class Square {
+        - _x: Integer
+        - _y: Integer
+        - _color: Color
+        - _isFilled: Boolean
+
+        + Square(x: Integer, y: Integer, color: Color)
+        + getX(): Integer
+        + getY(): Integer
+        + getColor(): Color
+        + getIsFilled(): Boolean
+        + setIsFilled(isFilled: Boolean): void
+    }
+
+    class Board {
+        - _width: Integer
+        - _height: Integer
+
+        + Board(width: Integer, height: Integer)
+        + getWidth(): Integer
+        + getHeight(): Integer
+        + getGrid(): Boolean[][]
+    }
+
+    class Tetris {
+        - _score: Integer
+        - _waitingTime: Integer
+
+        + Tetris()
+        + run(): void
+        + pause(): void
+    }
+
+    class Observer {
+        + updateBoard(board: Board): void
+        + updateScore(score: Integer): void
+        + updateNextPiece(piece: Piece): void
+    }
+}
+
+package views {
+    class GameView implements Observer {
+        + GameView()
+        + updateBoard(board: Board): void
+        + updateScore(score: Integer): void
+        + updateNextPiece(piece: Piece): void
+    }
+}
+
+class App {
+    + {static} main(args: String[]): void
+}
+
+GameController *--> "1\n-_tetris" Tetris
+Tetris *--> "1\n-_board" Board
+Tetris *--> "1\n-_currentPiece" Shape
+Tetris *--> "1\n-_nextPiece" Shape
+Board *--> "*\n-_grid" Square
+Tetris ..> ShapesFactory: <<use>>
+ShapesFactory ..> Shape: <<create>>
+ShapesFactory ..> IShape: <<create>>
+ShapesFactory ..> JShape: <<create>>
+ShapesFactory ..> LShape: <<create>>
+ShapesFactory ..> OShape: <<create>>
+ShapesFactory ..> SShape: <<create>>
+ShapesFactory ..> TShape: <<create>>
+ShapesFactory ..> ZShape: <<create>>
+
+@enduml
